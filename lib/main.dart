@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,54 +21,93 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Tarefas'),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: ListView(
           children: const [
-            TaskCard('Aprender Flutter'),
+            TaskCard(
+                'Aprender Fluttersssssssssssssssssssssssssssss ssssssssssssssss'),
             TaskCard('Andar de bike'),
             TaskCard('Meditar'),
           ],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {}),
+        // floatingActionButton: FloatingActionButton(onPressed: () {}),
       ),
     );
   }
 }
 
-
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   final String name;
+
   const TaskCard(this.name, {Key? key}) : super(key: key);
 
   @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  int level = 0;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  color: Colors.red,
-                  width: 72,
-                  height: 100,
-                ),
-                Text(name),
-                ElevatedButton(
-                    onPressed: (){},
-                    child: const Icon(Icons.arrow_drop_up))
-              ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    color: Colors.grey,
+                    width: 72,
+                    height: 100,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      widget.name,
+                      style: const TextStyle(
+                          fontSize: 24, overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          level++;
+                        });
+                      },
+                      child: const Icon(Icons.arrow_drop_up))
+                ],
+              ),
             ),
-          ),
-          Container(
-            color: Colors.blue,
-            height: 40,
-          )
-        ],
+            Container(
+              color: Colors.blue,
+              height: 40,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: 200,
+                        child: LinearProgressIndicator(
+                          color: Colors.white,
+                          value: min(level / 10, 10),
+                        )),
+                    Text(
+                      'Nível $level',
+                      style: const TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
