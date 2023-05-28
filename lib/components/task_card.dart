@@ -145,16 +145,14 @@ class _TaskCardState extends State<TaskCard> {
 
   int masterLevel() {
     const int maxToResetMastery = 3;
+    double linearProgressStatus = getLinearProgressStatus();
 
-    return (level -
-            (getLinearProgressStatus().truncate() > 0 &&
-                    getLinearProgressStatus() >=
-                        getLinearProgressStatus().truncate()
-                ? (min(getLinearProgressStatus().truncate(),
-                        maxToResetMastery) *
-                    (level / getLinearProgressStatus()))
-                : 0))
-        .toInt();
+    if (linearProgressStatus >= 1) {
+      int mastery = min(linearProgressStatus.truncate(), maxToResetMastery);
+      return (level - (mastery * (level / linearProgressStatus))).toInt();
+    } else {
+      return level;
+    }
   }
 
   double getLinearProgressStatus() {
